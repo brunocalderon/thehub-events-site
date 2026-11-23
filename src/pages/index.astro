@@ -11,17 +11,17 @@ const eventPublishingFormUrl = resolveBuildSecret("EVENT_PUBLISHING_FORM");
 ---
 
 <Layout>
-	<main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 md:px-6">
+	<main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pt-4 pb-10 md:px-6 md:pt-6">
 		<div class="flex w-full flex-col gap-6">
 			<header class="flex flex-col gap-3">
 				<AppHeaderBrand />
 				<div class="flex max-w-prose flex-col gap-2 text-sm text-muted-foreground">
 					<p>
-						Community meetups, talks, and gatherings for English speakers in Chile.
+						The Hub curated list of community meetups, talks, and gatherings.
 					</p>
 					{eventPublishingFormUrl ? (
 						<p>
-							Organizing something for the community?{" "}
+							Organizing something?{" "}
 							<a
 								href={eventPublishingFormUrl}
 								target="_blank"
