@@ -1,6 +1,15 @@
 [
 	{
-		"id": "get-together-frost-free-holiday-party-2026-12-04",
+		"id": "writers-circle-2026-11-26",
+		"name": "Writers Circle",
+		"startAt": "2026-11-26T13:00:00.000Z",
+		"endAt": "2026-11-26T14:30:00.000Z",
+		"place": "Bolonia - Bario Italia (Av. Italia x Colo Colo)",
+		"description": "A free weekly meeting of people wanting a quiet, focussed, supportive space to work on their own writing projects.\n\nIt can be a book, blog, poem, letter to mom, shopping list, etc.\n\nWe chat a bit, share our writing goal for the day, then settle into our own project for a full hour.\n\nThen reconvene to share how we did, and if anyone wants to read a bit of what they created, that is welcome but not required.",
+		"admission": "Free"
+	},
+	{
+		"id": "get-together-2026-12-04",
 		"name": "The Get-Together presents: A Frost Free Holiday Party!",
 		"startAt": "2026-12-05T00:00:00.000Z",
 		"endAt": "2026-12-05T04:00:00.000Z",
@@ -8,6 +17,6 @@
 		"link": "https://forms.gle/HHjgbRRbpnw3vTbNA",
 		"description": "**This is a Paid Admission Event.**\n**The cost per person is $25.000 CLP**\n\n🚢The end of the year is upon us!\n🪩Let’s celebrate together one last time in 2026!\n🗓️4th of December, ⏰9 pm\n\nAdmission Includes:\n🍹Refreshing cocktails and mocktails  \n🍉Delicious and fresh finger food \n\n😳Want to attend?\n👇Just fill out the form\n<https://forms.gle/HHjgbRRbpnw3vTbNA>\n🤔Questions? [DM The Host, Daesha, via WhatsApp](https://wa.me/56982836228)\n\n🗺️In Ñuñoa near Principe de Gales metro, street parking available.",
 		"admission": "Paid",
-		"posterUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1795471200000/ADuAG8JLj4ZsNHEsTAqmZA/WiU8jAIDQjtOqT0o3Wlafk4GU6CjCdXSLzvdq7StTOyo9xeZMV_T2mdtJ9P7GHUC1b76tafNebmWjvi8WMF2eNNSxytJKjSL9o_OcHun4YsvLEygnq4XMcGWPAmvEk1nA86xM4Bl3FLHGRWEkfhtaz83J1g421PakL3wWItyJlPdt0aJ1Fb6LNOWOCaY-7m2/BWkNTTeKjGF0w-muCXVAxQWyzGBslDUF43h0Vxnw9ak"
+		"posterUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1795478400000/5wJkpAcZC6nJL7Rtfa2RfA/sz21QZQptvRWZuxiTaMp9tmbJT45oz44arUMPdrRWwa4BltZijLVDeV9QLINRmb1OPd6W9pDB0-GiiSBLUrWmCgfrajnqAYryM16XEJuJ3WbRZjn8kT-zZUCqJjCI93sIfR5lkkdhcebFQY1JclN8U0W55aRK-pdsZV6J3R9moJT8qKLNa7IYh90QoJ9kZGZ/VwQ0-crpjivlWWfBap5cIcAFFxPGL_jdEpKcO74V_uk"
 	}
 ]

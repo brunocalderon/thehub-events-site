@@ -2,6 +2,7 @@ import { ClockIcon, DoorOpenIcon, EyeIcon, MapPinIcon } from "lucide-react";
 
 import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
+import { EventMobileFieldsGrid } from "@/components/event-mobile-fields-grid";
 import { EventMoreInfoLink } from "@/components/event-more-info-link";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
 import {
@@ -32,29 +33,11 @@ function EventNameBlock({ event }: { event: HubEvent }) {
 
 function EventMobileCard({ event }: { event: HubEvent }) {
 	return (
-		<div className="flex flex-col gap-3 rounded-lg border border-black p-4">
-			<EventNameBlock event={event} />
-			<dl className="grid grid-cols-1 gap-2 text-sm">
-				<div className="flex flex-col gap-0.5">
-					<dt className="text-muted-foreground">Where</dt>
-					<dd className="text-foreground">{event.place}</dd>
-				</div>
-				<div className="flex flex-col gap-0.5">
-					<dt className="text-muted-foreground">When</dt>
-					<dd>
-						<time dateTime={event.startAt}>
-							{formatEventDateTime(event.startAt)}
-						</time>
-					</dd>
-				</div>
-				<div className="flex flex-col gap-0.5">
-					<dt className="text-muted-foreground">Admission</dt>
-					<dd>
-						<EventAdmissionBadge admission={event.admission} />
-					</dd>
-				</div>
-			</dl>
-			<EventMoreInfoLink event={event} className="w-fit" />
+		<div className="overflow-hidden rounded-lg border border-black">
+			<div className="border-b border-black bg-foreground px-4 py-3 text-background">
+				<EventNameBlock event={event} />
+			</div>
+			<EventMobileFieldsGrid event={event} footer="more-info" />
 		</div>
 	);
 }
