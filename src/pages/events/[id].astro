@@ -2,6 +2,7 @@
 import AppHeaderBrand from "@/components/app-header-brand.astro";
 import EventDescription from "@/components/event-description.astro";
 import { EventDetailFields } from "@/components/event-detail-fields";
+import { EventPosterZoom } from "@/components/event-poster-zoom";
 import { buttonVariants } from "@/components/ui/button";
 import Layout from "@/layouts/Layout.astro";
 import { cn } from "cn";
@@ -27,6 +28,7 @@ const { event } = Astro.props;
 	<main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 md:px-6">
 		<div class="mx-auto flex w-full max-w-3xl flex-col gap-8">
 			<header class="flex flex-col gap-4">
+				<AppHeaderBrand />
 				<a
 					href="/"
 					class={cn(
@@ -36,7 +38,6 @@ const { event } = Astro.props;
 				>
 					← All events
 				</a>
-				<AppHeaderBrand />
 			</header>
 
 			<article class="flex w-full flex-col gap-6">
@@ -47,21 +48,30 @@ const { event } = Astro.props;
 					<EventDetailFields event={event} />
 				</div>
 
-				{event.posterUrl ? (
+				{event.posterUrl || event.description ? (
 					<>
 						<hr class="border-0 border-t border-border" />
-						<img
-							src={event.posterUrl}
-							alt=""
-							class="max-h-[28rem] w-full max-w-md rounded-lg border border-black object-cover"
-							loading="lazy"
-							decoding="async"
-						/>
+						<div
+							class:list={[
+								"grid w-full gap-6",
+								event.posterUrl && event.description
+									? "md:grid-cols-2 md:items-start md:gap-8"
+									: "grid-cols-1",
+							]}
+						>
+							{event.posterUrl ? (
+								<EventPosterZoom
+									client:load
+									src={event.posterUrl}
+									alt={event.name}
+									class="mx-auto md:mx-0"
+								/>
+							) : null}
+							{event.description ? (
+								<EventDescription markdown={event.description} />
+							) : null}
+						</div>
 					</>
-				) : null}
-
-				{event.description ? (
-					<EventDescription markdown={event.description} />
 				) : null}
 			</article>
 		</div>
