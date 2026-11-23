@@ -1,0 +1,23 @@
+---
+import AppHeaderBrand from "@/components/app-header-brand.astro";
+import { EventsList } from "@/components/events-list";
+import Layout from "@/layouts/Layout.astro";
+import type { HubEvent } from "@/data/events";
+import publicEvents from "@/generated/public-events.json";
+
+const events = publicEvents as HubEvent[];
+---
+
+<Layout>
+	<main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 md:px-6">
+		<div class="flex w-full flex-col gap-6">
+			<header class="flex flex-col gap-3">
+				<AppHeaderBrand />
+				<p class="max-w-prose text-sm text-muted-foreground">
+					Community meetups, talks, and gatherings for English speakers in Chile.
+				</p>
+			</header>
+			<EventsList events={events} />
+		</div>
+	</main>
+</Layout>

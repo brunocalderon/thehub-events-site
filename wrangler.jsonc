@@ -1,0 +1,11 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "thehub-events-site",
+	"compatibility_date": "2025-11-22",
+	"pages_build_output_dir": "dist",
+	"vars": {
+		"AIRTABLE_BASE_ID": "appAaNlcIwF3BiHL2",
+		"AIRTABLE_EVENTS_TABLE": "Events",
+		"AIRTABLE_EVENTS_VIEW": "Events"
+	}
+}

@@ -1,0 +1,72 @@
+---
+import AppHeaderBrand from "@/components/app-header-brand.astro";
+import { EventDetailFields } from "@/components/event-detail-fields";
+import { buttonVariants } from "@/components/ui/button";
+import Layout from "@/layouts/Layout.astro";
+import { cn } from "cn";
+import type { HubEvent } from "@/data/events";
+import publicEvents from "@/generated/public-events.json";
+
+export function getStaticPaths() {
+	const events = publicEvents as HubEvent[];
+	return events.map((event) => ({
+		params: { id: event.id },
+		props: { event },
+	}));
+}
+
+interface Props {
+	event: HubEvent;
+}
+
+const { event } = Astro.props;
+---
+
+<Layout>
+	<main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 md:px-6">
+		<div class="mx-auto flex w-full max-w-3xl flex-col gap-8">
+			<header class="flex flex-col gap-4">
+				<a
+					href="/"
+					class={cn(
+						buttonVariants({ variant: "outline", size: "sm" }),
+						"w-fit border-black bg-foreground text-background hover:bg-foreground/90 hover:text-background",
+					)}
+				>
+					← All events
+				</a>
+				<AppHeaderBrand />
+			</header>
+
+			<article class="flex w-full flex-col gap-6">
+				<div class="flex flex-col gap-3">
+					<h1 class="text-2xl font-semibold tracking-tight text-balance">
+						{event.name}
+					</h1>
+					<EventDetailFields event={event} />
+				</div>
+
+				{event.posterUrl ? (
+					<>
+						<hr class="border-0 border-t border-black" />
+						<img
+							src={event.posterUrl}
+							alt=""
+							class="max-h-[28rem] w-full max-w-md rounded-lg border border-black object-cover"
+							loading="lazy"
+							decoding="async"
+						/>
+					</>
+				) : null}
+
+				{event.description ? (
+					<div
+						class="whitespace-pre-wrap text-sm leading-relaxed text-foreground"
+					>
+						{event.description}
+					</div>
+				) : null}
+			</article>
+		</div>
+	</main>
+</Layout>
