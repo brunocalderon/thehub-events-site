@@ -3,9 +3,11 @@ import AppHeaderBrand from "@/components/app-header-brand.astro";
 import { EventsList } from "@/components/events-list";
 import Layout from "@/layouts/Layout.astro";
 import type { HubEvent } from "@/data/events";
+import { resolveBuildSecret } from "@/lib/site-config";
 import publicEvents from "@/generated/public-events.json";
 
 const events = publicEvents as HubEvent[];
+const eventPublishingFormUrl = resolveBuildSecret("EVENT_PUBLISHING_FORM");
 ---
 
 <Layout>
@@ -13,9 +15,25 @@ const events = publicEvents as HubEvent[];
 		<div class="flex w-full flex-col gap-6">
 			<header class="flex flex-col gap-3">
 				<AppHeaderBrand />
-				<p class="max-w-prose text-sm text-muted-foreground">
-					Community meetups, talks, and gatherings for English speakers in Chile.
-				</p>
+				<div class="flex max-w-prose flex-col gap-2 text-sm text-muted-foreground">
+					<p>
+						Community meetups, talks, and gatherings for English speakers in Chile.
+					</p>
+					{eventPublishingFormUrl ? (
+						<p>
+							Organizing something for the community?{" "}
+							<a
+								href={eventPublishingFormUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-muted-foreground underline underline-offset-4 hover:text-foreground"
+							>
+								Publish your event
+							</a>
+							.
+						</p>
+					) : null}
+				</div>
 			</header>
 			<EventsList events={events} />
 		</div>
