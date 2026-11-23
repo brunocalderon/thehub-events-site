@@ -33,17 +33,32 @@ type EventsListProps = {
 	events?: HubEvent[];
 };
 
-function EventNameBlock({ event }: { event: HubEvent }) {
+function EventNameBlock({
+	event,
+	truncateTitle = false,
+}: {
+	event: HubEvent;
+	truncateTitle?: boolean;
+}) {
 	return (
-		<span className="block min-w-0 font-medium text-balance">{event.name}</span>
+		<span
+			title={truncateTitle ? event.name : undefined}
+			className={
+				truncateTitle
+					? "block min-w-0 truncate font-medium whitespace-nowrap"
+					: "block min-w-0 font-medium text-balance"
+			}
+		>
+			{event.name}
+		</span>
 	);
 }
 
 function EventMobileCard({ event }: { event: HubEvent }) {
 	return (
 		<div className="overflow-hidden rounded-lg border border-black">
-			<div className="border-b border-black bg-foreground px-4 py-3 text-background">
-				<EventNameBlock event={event} />
+			<div className="min-w-0 overflow-hidden border-b border-black bg-foreground px-4 py-3 text-background">
+				<EventNameBlock event={event} truncateTitle />
 			</div>
 			<EventMobileFieldsGrid event={event} footer="more-info" />
 		</div>
