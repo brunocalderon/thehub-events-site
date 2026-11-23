@@ -1,0 +1,15 @@
+---
+import { renderEventDescriptionHtml } from "@/lib/render-event-description";
+
+interface Props {
+	markdown: string;
+}
+
+const { markdown } = Astro.props;
+const html = renderEventDescriptionHtml(markdown);
+---
+
+<div
+	class="event-description text-sm leading-relaxed text-foreground [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-4 [&_p+p]:mt-3 [&_strong]:font-semibold"
+	set:html={html}
+/>

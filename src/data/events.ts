@@ -5,6 +5,7 @@ export type HubEvent = {
 	endAt?: string;
 	place: string;
 	link?: string;
+	/** Airtable rich text field (markdown). */
 	description?: string;
 	admission?: string;
 	posterUrl?: string;

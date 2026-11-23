@@ -15,9 +15,10 @@ The **Events** table (view **Events**) uses these columns in production:
 | Event ID     | No       | Stable public id (slug); falls back to record id |
 | Status       | No       | Only `Approved` rows are listed            |
 | Admission    | No       | e.g. Paid / Free (optional metadata)       |
-| Description  | No       | Shown under the title (clamped in UI)      |
+| Description  | No       | Rich text (markdown); rendered on event page |
 | Poster Image | No       | Attachment; URL captured at build time     |
-| Link         | No       | Legacy optional ticket/details URL         |
+| Event Link   | No       | External Join link (detail table column)   |
+| Link         | No       | Legacy alias for Event Link                |
 
 `npm run build` runs `scripts/sync-airtable-events.mjs`, which writes `src/generated/public-events.json` into the static bundle. Production does not call Airtable at runtime.
 

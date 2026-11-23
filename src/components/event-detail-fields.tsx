@@ -2,6 +2,7 @@ import { ClockIcon, DoorOpenIcon, MapPinIcon } from "lucide-react";
 
 import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
+import { EventJoinLink } from "@/components/event-join-link";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
 import {
 	Table,
@@ -17,6 +18,8 @@ type EventDetailFieldsProps = {
 };
 
 export function EventDetailFields({ event }: EventDetailFieldsProps) {
+	const hasJoinLink = Boolean(event.link);
+
 	return (
 		<div className="w-full min-w-0 overflow-hidden rounded-xl border border-black bg-card shadow-[0_6px_20px_-4px_rgba(0,0,0,0.18)]">
 			<Table className="w-full table-auto">
@@ -34,12 +37,23 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 								When
 							</span>
 						</TableHead>
-						<TableHead className="w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-center text-background whitespace-nowrap">
+						<TableHead
+							className={
+								hasJoinLink
+									? "w-px bg-foreground px-3 text-center text-background whitespace-nowrap"
+									: "w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-center text-background whitespace-nowrap"
+							}
+						>
 							<span className="inline-flex items-center justify-center gap-1.5">
 								<DoorOpenIcon className="size-3.5 shrink-0" aria-hidden />
 								Admission
 							</span>
 						</TableHead>
+						{hasJoinLink ? (
+							<TableHead className="w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-background whitespace-nowrap">
+								Join
+							</TableHead>
+						) : null}
 					</TableRow>
 				</TableHeader>
 				<TableBody className="[&_tr:last-child]:border-b [&_tr:last-child]:border-black">
@@ -52,11 +66,22 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 								{formatEventDateTime(event.startAt)}
 							</time>
 						</TableCell>
-						<TableCell className="w-px py-3 pr-4 pl-3 align-top whitespace-nowrap">
+						<TableCell
+							className={
+								hasJoinLink
+									? "w-px px-3 py-3 align-top whitespace-nowrap"
+									: "w-px py-3 pr-4 pl-3 align-top whitespace-nowrap"
+							}
+						>
 							<div className="flex justify-center">
 								<EventAdmissionBadge admission={event.admission} />
 							</div>
 						</TableCell>
+						{hasJoinLink && event.link ? (
+							<TableCell className="w-px py-3 pr-4 pl-3 align-top whitespace-nowrap">
+								<EventJoinLink href={event.link} />
+							</TableCell>
+						) : null}
 					</TableRow>
 				</TableBody>
 			</Table>

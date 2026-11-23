@@ -2,7 +2,7 @@ const FIELD_NAME = "Event Name";
 const START_FIELDS = ["Start Date", "Start", "eventStart"];
 const END_FIELDS = ["End Date", "End", "eventEnd"];
 const PLACE_FIELDS = ["Location", "Place", "eventPlace"];
-const LINK_FIELDS = ["Link", "URL", "Purchase Link", "Ticket Link"];
+const LINK_FIELDS = ["Event Link", "Link", "URL", "Purchase Link", "Ticket Link"];
 const DESCRIPTION_FIELDS = ["Description", "Notes"];
 const ID_FIELDS = ["Event ID", "Slug", "eventId"];
 const STATUS_FIELD = "Status";
@@ -24,7 +24,7 @@ const QUERY_PARAMS =
  *   endAt?: string;
  *   place: string;
  *   link?: string;
- *   description?: string;
+ *   description?: string; // Airtable rich text (markdown)
  *   admission?: string;
  *   posterUrl?: string;
  * }} PublicEvent
@@ -86,6 +86,25 @@ function optionalString(value) {
 	}
 	const trimmed = value.trim();
 	return trimmed === "" ? undefined : trimmed;
+}
+
+/**
+ * @param {unknown} value
+ */
+function readRichTextDescription(value) {
+	if (typeof value === "string") {
+		const trimmed = value.trim();
+		return trimmed === "" ? undefined : trimmed;
+	}
+
+	if (value && typeof value === "object" && "state" in value && "value" in value) {
+		const inner = /** @type {{ value?: unknown }} */ (value).value;
+		if (typeof inner === "string" && inner.trim() !== "") {
+			return inner.trim();
+		}
+	}
+
+	return undefined;
 }
 
 /**
@@ -187,7 +206,11 @@ export function mapAirtableRecord(record) {
 		const endRaw = readFirstString(fields, END_FIELDS);
 		const place = readFirstString(fields, PLACE_FIELDS) ?? "TBA";
 		const linkRaw = readFirstString(fields, LINK_FIELDS);
-		const description = readFirstString(fields, DESCRIPTION_FIELDS);
+		let description;
+		for (const name of DESCRIPTION_FIELDS) {
+			description = readRichTextDescription(fields[name]);
+			if (description) break;
+		}
 		const admission = optionalString(fields[ADMISSION_FIELD]);
 		const posterUrl = readPosterUrl(fields[POSTER_FIELD]);
 		const eventId = readFirstString(fields, ID_FIELDS);

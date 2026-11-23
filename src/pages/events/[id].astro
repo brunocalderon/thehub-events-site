@@ -1,5 +1,6 @@
 ---
 import AppHeaderBrand from "@/components/app-header-brand.astro";
+import EventDescription from "@/components/event-description.astro";
 import { EventDetailFields } from "@/components/event-detail-fields";
 import { buttonVariants } from "@/components/ui/button";
 import Layout from "@/layouts/Layout.astro";
@@ -48,7 +49,7 @@ const { event } = Astro.props;
 
 				{event.posterUrl ? (
 					<>
-						<hr class="border-0 border-t border-black" />
+						<hr class="border-0 border-t border-border" />
 						<img
 							src={event.posterUrl}
 							alt=""
@@ -60,11 +61,7 @@ const { event } = Astro.props;
 				) : null}
 
 				{event.description ? (
-					<div
-						class="whitespace-pre-wrap text-sm leading-relaxed text-foreground"
-					>
-						{event.description}
-					</div>
+					<EventDescription markdown={event.description} />
 				) : null}
 			</article>
 		</div>
