@@ -1,8 +1,16 @@
+"use client";
+
 import { ClockIcon, DoorOpenIcon, EyeIcon, MapPinIcon } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
+import { EventsAdmissionFilter } from "@/components/events-admission-filter";
 import { EventMobileFieldsGrid } from "@/components/event-mobile-fields-grid";
+import {
+	type AdmissionFilter,
+	matchesAdmissionFilter,
+} from "@/lib/event-admission";
 import { EventMoreInfoLink } from "@/components/event-more-info-link";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
 import {
@@ -42,9 +50,24 @@ function EventMobileCard({ event }: { event: HubEvent }) {
 	);
 }
 
+const emptyFilterCopy: Record<Exclude<AdmissionFilter, "all">, string> = {
+	free: "No free events right now.",
+	paid: "No paid events right now.",
+};
+
 export function EventsList({ events = [] }: EventsListProps) {
+	const [admissionFilter, setAdmissionFilter] = useState<AdmissionFilter>("all");
+
+	const filteredEvents = useMemo(
+		() =>
+			events.filter((event) =>
+				matchesAdmissionFilter(event.admission, admissionFilter),
+			),
+		[events, admissionFilter],
+	);
+
 	return (
-		<div className="w-full">
+		<div className="flex w-full flex-col gap-4">
 			{events.length === 0 ? (
 				<Empty>
 					<EmptyHeader>
@@ -59,12 +82,35 @@ export function EventsList({ events = [] }: EventsListProps) {
 
 			{events.length > 0 ? (
 				<>
-					<div className="flex flex-col gap-3 md:hidden">
-						{events.map((event) => (
-							<EventMobileCard key={event.id} event={event} />
-						))}
-					</div>
+					<EventsAdmissionFilter
+						value={admissionFilter}
+						onChange={setAdmissionFilter}
+					/>
 
+					{filteredEvents.length === 0 ? (
+						<Empty>
+							<EmptyHeader>
+								<EmptyTitle>
+									{admissionFilter === "all"
+										? "No upcoming events"
+										: emptyFilterCopy[admissionFilter]}
+								</EmptyTitle>
+								<EmptyDescription>
+									Try another filter or check back after the next sync.
+								</EmptyDescription>
+							</EmptyHeader>
+						</Empty>
+					) : null}
+
+					{filteredEvents.length > 0 ? (
+						<div className="flex flex-col gap-3 md:hidden">
+							{filteredEvents.map((event) => (
+								<EventMobileCard key={event.id} event={event} />
+							))}
+						</div>
+					) : null}
+
+					{filteredEvents.length > 0 ? (
 					<div className="hidden w-full min-w-0 max-w-7xl overflow-hidden rounded-xl border border-black bg-card shadow-[0_6px_20px_-4px_rgba(0,0,0,0.18)] md:block">
 						<Table className="w-full table-auto">
 							<TableHeader>
@@ -99,7 +145,7 @@ export function EventsList({ events = [] }: EventsListProps) {
 								</TableRow>
 							</TableHeader>
 							<TableBody className="[&_tr:last-child]:border-b [&_tr:last-child]:border-black">
-								{events.map((event) => (
+								{filteredEvents.map((event) => (
 									<TableRow key={event.id} className="border-black">
 										<TableCell className="min-w-[10rem] max-w-md py-3 pl-4 align-top whitespace-normal">
 											<EventNameBlock event={event} />
@@ -133,6 +179,7 @@ export function EventsList({ events = [] }: EventsListProps) {
 							</TableFooter>
 						</Table>
 					</div>
+					) : null}
 				</>
 			) : null}
 		</div>

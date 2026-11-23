@@ -35,7 +35,7 @@ const eventPublishingFormUrl = resolveBuildSecret("EVENT_PUBLISHING_FORM");
 					) : null}
 				</div>
 			</header>
-			<EventsList events={events} />
+			<EventsList client:load events={events} />
 		</div>
 	</main>
 </Layout>

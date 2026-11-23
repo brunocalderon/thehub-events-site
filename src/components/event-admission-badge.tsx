@@ -1,25 +1,10 @@
 import { Badge } from "@/components/ui/badge";
+import { admissionKind } from "@/lib/event-admission";
 
 const paidAdmissionBadgeClassName =
 	"border-transparent bg-[#4682B4] text-[#F2F0EF]";
 const freeAdmissionBadgeClassName =
 	"border-transparent bg-[#2E6F40] text-[#F2F0EF]";
-
-type AdmissionKind = "paid" | "free" | "other" | "none";
-
-function admissionKind(value: string | undefined): AdmissionKind {
-	if (!value?.trim()) {
-		return "none";
-	}
-	const normalized = value.trim().toLowerCase();
-	if (normalized === "paid") {
-		return "paid";
-	}
-	if (normalized === "free") {
-		return "free";
-	}
-	return "other";
-}
 
 type EventAdmissionBadgeProps = {
 	admission?: string;

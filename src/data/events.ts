@@ -4,6 +4,7 @@ export type HubEvent = {
 	startAt: string;
 	endAt?: string;
 	place: string;
+	mapsLink?: string;
 	link?: string;
 	/** Airtable rich text field (markdown). */
 	description?: string;

@@ -3,6 +3,7 @@ const START_FIELDS = ["Start Date", "Start", "eventStart"];
 const END_FIELDS = ["End Date", "End", "eventEnd"];
 const PLACE_FIELDS = ["Location", "Place", "eventPlace"];
 const LINK_FIELDS = ["Event Link", "Link", "URL", "Purchase Link", "Ticket Link"];
+const MAPS_LINK_FIELDS = ["Google Maps Link", "Maps Link", "googleMapsLink"];
 const DESCRIPTION_FIELDS = ["Description", "Notes"];
 const ID_FIELDS = ["Event ID", "Slug", "eventId"];
 const STATUS_FIELD = "Status";
@@ -23,6 +24,7 @@ const QUERY_PARAMS =
  *   startAt: string;
  *   endAt?: string;
  *   place: string;
+ *   mapsLink?: string;
  *   link?: string;
  *   description?: string; // Airtable rich text (markdown)
  *   admission?: string;
@@ -206,6 +208,7 @@ export function mapAirtableRecord(record) {
 		const endRaw = readFirstString(fields, END_FIELDS);
 		const place = readFirstString(fields, PLACE_FIELDS) ?? "TBA";
 		const linkRaw = readFirstString(fields, LINK_FIELDS);
+		const mapsLinkRaw = readFirstString(fields, MAPS_LINK_FIELDS);
 		let description;
 		for (const name of DESCRIPTION_FIELDS) {
 			description = readRichTextDescription(fields[name]);
@@ -221,6 +224,7 @@ export function mapAirtableRecord(record) {
 			startAt,
 			...(endRaw ? { endAt: parseAirtableDateTime(endRaw) } : {}),
 			place,
+			...(mapsLinkRaw ? { mapsLink: normalizeUrl(mapsLinkRaw) } : {}),
 			...(linkRaw ? { link: normalizeUrl(linkRaw) } : {}),
 			...(description ? { description } : {}),
 			...(admission ? { admission } : {}),

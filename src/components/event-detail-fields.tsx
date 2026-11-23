@@ -4,6 +4,7 @@ import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
 import { EventJoinLink } from "@/components/event-join-link";
 import { EventMobileFieldsGrid } from "@/components/event-mobile-fields-grid";
+import { EventPlace } from "@/components/event-place";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
 import {
 	Table,
@@ -27,6 +28,7 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 				<EventMobileFieldsGrid
 					event={event}
 					footer={hasJoinLink ? "join" : undefined}
+					linkPlaceMaps
 				/>
 			</div>
 
@@ -70,8 +72,8 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 					</TableHeader>
 					<TableBody className="[&_tr:last-child]:border-b [&_tr:last-child]:border-black">
 						<TableRow className="border-black">
-							<TableCell className="min-w-[8rem] py-3 pl-4 align-top text-sm text-foreground whitespace-normal break-words">
-								{event.place}
+							<TableCell className="min-w-[8rem] py-3 pl-4 align-top text-sm whitespace-normal break-words">
+								<EventPlace event={event} linkMaps />
 							</TableCell>
 							<TableCell className="w-px px-3 py-3 align-top text-sm whitespace-nowrap">
 								<time dateTime={event.startAt}>

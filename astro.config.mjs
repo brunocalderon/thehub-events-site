@@ -9,6 +9,10 @@ import react from "@astrojs/react";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+	devToolbar: {
+		enabled: false,
+	},
+
 	vite: {
 		plugins: [tailwindcss()],
 		resolve: {
