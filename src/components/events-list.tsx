@@ -57,6 +57,7 @@ function EventMobileCard({ event }: { event: HubEvent }) {
 }
 
 const emptyFilterCopy: Record<Exclude<AdmissionFilter, "all">, string> = {
+	"this-week": "No events this week.",
 	free: "No free events right now.",
 	paid: "No paid events right now.",
 	donation: "No donation events right now.",
@@ -80,9 +81,9 @@ export function EventsList({ events = [] }: EventsListProps) {
 	const filteredEvents = useMemo(
 		() =>
 			upcomingEvents.filter((event) =>
-				matchesAdmissionFilter(event.admission, admissionFilter),
+				matchesAdmissionFilter(event, admissionFilter, now),
 			),
-		[upcomingEvents, admissionFilter],
+		[upcomingEvents, admissionFilter, now],
 	);
 
 	return (
@@ -127,7 +128,7 @@ export function EventsList({ events = [] }: EventsListProps) {
 										: emptyFilterCopy[admissionFilter]}
 								</EmptyTitle>
 								<EmptyDescription>
-									Try another filter or check back after the next sync.
+									Try another filter.
 								</EmptyDescription>
 							</EmptyHeader>
 						</Empty>

@@ -1,6 +1,14 @@
+import type { HubEvent } from "@/data/events";
+import { isEventThisWeek } from "@/lib/event-this-week";
+
 export type AdmissionKind = "paid" | "free" | "donation" | "other" | "none";
 
-export type AdmissionFilter = "all" | "free" | "paid" | "donation";
+export type AdmissionFilter =
+	| "all"
+	| "this-week"
+	| "free"
+	| "paid"
+	| "donation";
 
 export function admissionKind(value: string | undefined): AdmissionKind {
 	if (!value?.trim()) {
@@ -20,11 +28,15 @@ export function admissionKind(value: string | undefined): AdmissionKind {
 }
 
 export function matchesAdmissionFilter(
-	admission: string | undefined,
+	event: HubEvent,
 	filter: AdmissionFilter,
+	now: Date = new Date(),
 ): boolean {
 	if (filter === "all") {
 		return true;
 	}
-	return admissionKind(admission) === filter;
+	if (filter === "this-week") {
+		return isEventThisWeek(event.startAt, now);
+	}
+	return admissionKind(event.admission) === filter;
 }
