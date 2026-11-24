@@ -12,6 +12,7 @@ import {
 	eventDateHeading,
 	eventTimeRange,
 } from "@/lib/format-event-datetime-detail";
+import { eventMapImagePath } from "@/lib/event-map-image";
 import { eventPosterSrc } from "@/lib/event-poster";
 import { cn } from "cn";
 
@@ -25,7 +26,7 @@ export function EventDetailLumaLayout({ event }: EventDetailLumaLayoutProps) {
 	const hasDescription = Boolean(event.description?.trim());
 	const hasJoinLink = Boolean(event.link?.trim());
 	const hasMapsLink = Boolean(event.mapsLink?.trim());
-	const mapImageUrl = event.mapImage;
+	const mapImageUrl = eventMapImagePath(event);
 	const showLocationSection = hasMapsLink || Boolean(mapImageUrl);
 	const admissionLabel = event.admission?.trim();
 

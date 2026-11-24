@@ -12,6 +12,4 @@ export type HubEvent = {
 	posterUrl?: string;
 	/** Decimal degrees from Airtable "GPS Coordinates" (`lat,lng`). */
 	gps?: { lat: number; lng: number };
-	/** `/event-maps/{id}.jpg` from build-time Mapbox static fetch. */
-	mapImage?: string;
 };

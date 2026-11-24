@@ -11,8 +11,7 @@
 		"gps": {
 			"lat": -33.4520287,
 			"lng": -70.6232281
-		},
-		"mapImage": "/event-maps/writers-circle-2026-11-26.jpg"
+		}
 	},
 	{
 		"id": "thanksgiving-potluck-2026-11-28",
@@ -27,8 +26,7 @@
 		"gps": {
 			"lat": -33.45328,
 			"lng": -70.57073
-		},
-		"mapImage": "/event-maps/thanksgiving-potluck-2026-11-28.jpg"
+		}
 	},
 	{
 		"id": "get-together-2026-12-04",
@@ -44,7 +42,6 @@
 		"gps": {
 			"lat": -33.43916,
 			"lng": -70.57309
-		},
-		"mapImage": "/event-maps/get-together-2026-12-04.jpg"
+		}
 	}
 ]

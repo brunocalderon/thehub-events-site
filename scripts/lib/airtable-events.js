@@ -31,7 +31,6 @@ const QUERY_PARAMS =
  *   admission?: string;
  *   posterUrl?: string;
  *   gps?: { lat: number; lng: number };
- *   mapImage?: string;
  * }} PublicEvent
  */
 

@@ -1,16 +1,17 @@
 {
   "name": "thehub-events-site",
   "type": "module",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "engines": {
     "node": ">=22.23.4"
   },
   "scripts": {
-    "predev": "node scripts/sync-airtable-events.mjs",
+    "predev": "node scripts/sync-airtable-events.mjs && node scripts/generate-event-maps.mjs",
     "dev": "astro dev",
     "sync:events": "node scripts/sync-airtable-events.mjs",
+    "maps:generate": "node scripts/generate-event-maps.mjs",
     "icons:generate": "node scripts/generate-pwa-icons.mjs",
-    "build": "node scripts/sync-airtable-events.mjs && npm run icons:generate && astro build",
+    "build": "node scripts/sync-airtable-events.mjs && node scripts/generate-event-maps.mjs && npm run icons:generate && astro build",
     "preview": "astro preview",
     "pages:dev": "npm run build && wrangler pages dev dist",
     "astro": "astro"
