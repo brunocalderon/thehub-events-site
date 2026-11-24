@@ -1,11 +1,9 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-/** @returns {Record<string, string>} */
-function readDotEnv() {
+function readDotEnv(): Record<string, string> {
 	const envPath = resolve(process.cwd(), ".env");
-	/** @type {Record<string, string>} */
-	const vars = {};
+	const vars: Record<string, string> = {};
 	try {
 		const raw = readFileSync(envPath, "utf8");
 		for (const line of raw.split("\n")) {
@@ -23,8 +21,7 @@ function readDotEnv() {
 	return vars;
 }
 
-/** @returns {Record<string, string>} */
-export function readWranglerVars() {
+export function readWranglerVars(): Record<string, string> {
 	const configPath = resolve(process.cwd(), "wrangler.jsonc");
 	try {
 		const raw = readFileSync(configPath, "utf8");
@@ -34,8 +31,7 @@ export function readWranglerVars() {
 		const config = JSON.parse(json) as { vars?: Record<string, unknown> };
 		const vars = config.vars;
 		if (!vars || typeof vars !== "object") return {};
-		/** @type {Record<string, string>} */
-		const out = {};
+		const out: Record<string, string> = {};
 		for (const [key, value] of Object.entries(vars)) {
 			if (typeof value === "string" && value.trim() !== "") {
 				out[key] = value.trim();
