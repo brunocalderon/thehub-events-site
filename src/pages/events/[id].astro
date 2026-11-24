@@ -32,8 +32,8 @@ const { event } = Astro.props;
 				<a
 					href="/"
 					class={cn(
-						buttonVariants({ variant: "outline", size: "sm" }),
-						"w-fit border-black bg-foreground text-background hover:bg-foreground/90 hover:text-background",
+						buttonVariants({ variant: "outline", size: "default" }),
+						"h-9 w-fit border-black bg-foreground px-3 text-sm text-background hover:bg-foreground/90 hover:text-background",
 					)}
 				>
 					← All events
@@ -68,7 +68,12 @@ const { event } = Astro.props;
 								/>
 							) : null}
 							{event.description ? (
-								<EventDescription markdown={event.description} />
+								<div class="flex min-w-0 flex-col gap-3">
+									<h2 class="text-lg font-semibold tracking-tight text-foreground">
+										Event Details
+									</h2>
+									<EventDescription markdown={event.description} />
+								</div>
 							) : null}
 						</div>
 					</>

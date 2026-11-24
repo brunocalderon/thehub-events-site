@@ -3,6 +3,7 @@ import { ClockIcon, DoorOpenIcon, MapPinIcon, UserGroupIcon } from "lucide-react
 import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
 import { EventJoinLink } from "@/components/event-join-link";
+import { EventMapsLink } from "@/components/event-maps-link";
 import { EventMobileFieldsGrid } from "@/components/event-mobile-fields-grid";
 import { EventPlace } from "@/components/event-place";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
@@ -21,6 +22,7 @@ type EventDetailFieldsProps = {
 
 export function EventDetailFields({ event }: EventDetailFieldsProps) {
 	const hasJoinLink = Boolean(event.link);
+	const hasMapsLink = Boolean(event.mapsLink);
 
 	return (
 		<div className="w-full min-w-0">
@@ -28,7 +30,7 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 				<EventMobileFieldsGrid
 					event={event}
 					footer={hasJoinLink ? "join" : undefined}
-					linkPlaceMaps
+					mapsButton
 				/>
 			</div>
 
@@ -50,7 +52,7 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 							</TableHead>
 							<TableHead
 								className={
-									hasJoinLink
+									hasJoinLink || hasMapsLink
 										? "w-px bg-foreground px-3 text-center text-background whitespace-nowrap"
 										: "w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-center text-background whitespace-nowrap"
 								}
@@ -61,10 +63,24 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 								</span>
 							</TableHead>
 							{hasJoinLink ? (
-								<TableHead className="w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-background whitespace-nowrap">
+								<TableHead
+									className={
+										hasMapsLink
+											? "w-px bg-foreground pr-4 pl-3 text-center text-background whitespace-nowrap"
+											: "w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-background whitespace-nowrap"
+									}
+								>
 									<span className="inline-flex items-center gap-1.5">
 										<UserGroupIcon className="size-3.5 shrink-0" aria-hidden />
 										Join
+									</span>
+								</TableHead>
+							) : null}
+							{hasMapsLink ? (
+								<TableHead className="w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-center text-background whitespace-nowrap">
+									<span className="inline-flex items-center justify-center gap-1.5">
+										<MapPinIcon className="size-3.5 shrink-0" aria-hidden />
+										Google Maps
 									</span>
 								</TableHead>
 							) : null}
@@ -72,19 +88,19 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 					</TableHeader>
 					<TableBody className="[&_tr:last-child]:border-b [&_tr:last-child]:border-black">
 						<TableRow className="border-black">
-							<TableCell className="min-w-[8rem] py-3 pl-4 align-top text-sm whitespace-normal break-words">
-								<EventPlace event={event} linkMaps />
+							<TableCell className="min-w-[8rem] py-3 pl-4 align-middle text-sm whitespace-normal break-words">
+								<EventPlace event={event} />
 							</TableCell>
-							<TableCell className="w-px px-3 py-3 align-top text-sm whitespace-nowrap">
+							<TableCell className="w-px px-3 py-3 align-middle text-sm whitespace-nowrap">
 								<time dateTime={event.startAt}>
 									{formatEventDateTime(event.startAt)}
 								</time>
 							</TableCell>
 							<TableCell
 								className={
-									hasJoinLink
-										? "w-px px-3 py-3 align-top whitespace-nowrap"
-										: "w-px py-3 pr-4 pl-3 align-top whitespace-nowrap"
+									hasJoinLink || hasMapsLink
+										? "w-px px-3 py-3 align-middle whitespace-nowrap"
+										: "w-px py-3 pr-4 pl-3 align-middle whitespace-nowrap"
 								}
 							>
 								<div className="flex justify-center">
@@ -92,8 +108,32 @@ export function EventDetailFields({ event }: EventDetailFieldsProps) {
 								</div>
 							</TableCell>
 							{hasJoinLink && event.link ? (
-								<TableCell className="w-px py-3 pr-4 pl-3 align-top whitespace-nowrap">
-									<EventJoinLink href={event.link} />
+								<TableCell
+									className={
+										hasMapsLink
+											? "w-px py-3 pr-4 pl-3 align-middle whitespace-nowrap"
+											: "w-px py-3 pr-4 pl-3 align-middle whitespace-nowrap"
+									}
+								>
+									<div className="flex justify-center">
+										<EventJoinLink
+											href={event.link}
+											appearance="button"
+											iconPosition="start"
+											className="h-8 whitespace-nowrap"
+										/>
+									</div>
+								</TableCell>
+							) : null}
+							{hasMapsLink && event.mapsLink ? (
+								<TableCell className="w-px py-3 pr-4 pl-3 align-middle whitespace-nowrap">
+									<div className="flex justify-center">
+										<EventMapsLink
+											href={event.mapsLink}
+											label="Google Maps"
+											className="h-8 whitespace-nowrap"
+										/>
+									</div>
 								</TableCell>
 							) : null}
 						</TableRow>

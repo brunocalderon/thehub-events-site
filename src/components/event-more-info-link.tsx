@@ -31,7 +31,7 @@ export function EventMoreInfoLink({
 	const icon = (
 		<ExternalLinkIcon className="size-3.5 shrink-0" aria-hidden />
 	);
-	const label = "View more info";
+	const label = "More info";
 
 	const anchorClassName = cn(
 		appearance === "button" ? buttonClassName : linkClassName,

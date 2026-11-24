@@ -145,7 +145,7 @@ export function EventsList({ events = [] }: EventsListProps) {
 									<TableHead className="w-px rounded-tr-xl bg-foreground pr-4 pl-3 text-center text-background whitespace-nowrap">
 										<span className="inline-flex items-center justify-center gap-1.5">
 											<EyeIcon className="size-3.5 shrink-0" aria-hidden />
-											View more info
+											More info
 										</span>
 									</TableHead>
 								</TableRow>

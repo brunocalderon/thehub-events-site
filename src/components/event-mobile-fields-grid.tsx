@@ -10,6 +10,7 @@ import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
 import { EventPlace } from "@/components/event-place";
 import { EventJoinLink } from "@/components/event-join-link";
+import { EventMapsLink } from "@/components/event-maps-link";
 import { EventMoreInfoLink } from "@/components/event-more-info-link";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
 import { cn } from "cn";
@@ -34,6 +35,8 @@ type EventMobileFieldsGridProps = {
 	event: HubEvent;
 	footer?: "join" | "more-info";
 	linkPlaceMaps?: boolean;
+	/** Full-width Google Maps button row (event detail mobile). */
+	mapsButton?: boolean;
 };
 
 function FieldRow({
@@ -81,7 +84,9 @@ export function EventMobileFieldsGrid({
 	event,
 	footer,
 	linkPlaceMaps = false,
+	mapsButton = false,
 }: EventMobileFieldsGridProps) {
+	const showMapsButton = mapsButton && Boolean(event.mapsLink);
 	const showJoin = footer === "join" && Boolean(event.link);
 
 	return (
@@ -106,6 +111,15 @@ export function EventMobileFieldsGrid({
 			>
 				<EventAdmissionBadge admission={event.admission} />
 			</FieldRow>
+			{showMapsButton && event.mapsLink ? (
+				<MergedFooterRow variant="button">
+					<EventMapsLink
+						href={event.mapsLink}
+						label="Google Maps"
+						className="h-9 w-full"
+					/>
+				</MergedFooterRow>
+			) : null}
 			{showJoin && event.link ? (
 				<MergedFooterRow icon={<UserGroupIcon aria-hidden />}>
 					<EventJoinLink
