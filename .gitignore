@@ -19,8 +19,6 @@ pnpm-debug.log*
 .env.production
 .dev.vars
 
-# build-time deploy hooks (sync from Airtable)
-functions/lib/generated/deploy-registry.js
 
 # macOS-specific files
 .DS_Store

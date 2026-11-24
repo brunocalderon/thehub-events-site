@@ -3,8 +3,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { fetchAirtableEvents } from "../functions/lib/airtable-events.js";
-import { mapboxStaticMapImageUrl } from "../functions/lib/mapbox-static-image.js";
+import { fetchAirtableEvents } from "./lib/airtable-events.js";
+import { mapboxStaticMapImageUrl } from "./lib/mapbox-static-image.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const publicEventsPath = resolve(root, "src/generated/public-events.json");
@@ -58,7 +58,7 @@ function readWranglerVars() {
 const eventMapsDir = resolve(root, "public/event-maps");
 
 /**
- * @param {import("../functions/lib/airtable-events.js").PublicEvent[]} events
+ * @param {import("./lib/airtable-events.js").PublicEvent[]} events
  * @param {string | undefined} mapboxToken
  */
 async function syncEventMapImages(events, mapboxToken) {
