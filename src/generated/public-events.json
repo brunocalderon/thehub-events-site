@@ -7,7 +7,12 @@
 		"place": "Bolonia - Bario Italia (Av. Italia x Colo Colo)",
 		"mapsLink": "https://maps.app.goo.gl/whjrUu9u9MvRmmoT7",
 		"description": "A **free** weekly meeting of people wanting a quiet, focussed, supportive space to work on their own writing projects.\n\nIt can be a book, blog, poem, letter to mom, shopping list, etc.\n\nWe chat a bit, share our writing goal for the day, then settle into our own project for a full hour.\n\nThen reconvene to share how we did, and if anyone wants to read a bit of what they created, that is welcome but not required.",
-		"admission": "Free"
+		"admission": "Free",
+		"gps": {
+			"lat": -33.4520287,
+			"lng": -70.6232281
+		},
+		"mapImage": "/event-maps/writers-circle-2026-11-26.jpg"
 	},
 	{
 		"id": "thanksgiving-potluck-2026-11-28",
@@ -18,7 +23,12 @@
 		"mapsLink": "https://maps.app.goo.gl/kvQHs3Ee1XCdu6GR9",
 		"link": "https://forms.gle/B962N2bneVy7LDg76",
 		"description": "**This is a Paid Admission Event.**\n**The cost per person is $5.000 CLP**\n\nThanksgiving Potluck 🦃 at 6:30 pm in Ñuñoa near metro plaza egaña!\n\nWe're coming together to share a meal, count our blessings, and collect used clothing and housewares for needy families and the unhoused.\n\nThere are still some spaces available, so if you'd like to attend please complete the Google Form at this link: <https://forms.gle/B962N2bneVy7LDg76>\n\nOnce you complete the Google Form I'll get in contact to get the deposit of 5.000 clp to secure your spot. The deposit will go towards covering the cost of the turkey, and anything more than that will go to help the need families and unhoused that Andrea works with.\n\nAttendance is closing on Wednesday so I can get an accurate headcount of how big of a turkey to get and other logistics.",
-		"admission": "Paid"
+		"admission": "Paid",
+		"gps": {
+			"lat": -33.45328,
+			"lng": -70.57073
+		},
+		"mapImage": "/event-maps/thanksgiving-potluck-2026-11-28.jpg"
 	},
 	{
 		"id": "get-together-2026-12-04",
@@ -30,6 +40,11 @@
 		"link": "https://forms.gle/HHjgbRRbpnw3vTbNA",
 		"description": "**This is a Paid Admission Event.**\n**The cost per person is $25.000 CLP**\n\n🚢The end of the year is upon us!\n🪩Let’s celebrate together one last time in 2026!\n🗓️4th of December, ⏰9 pm\n\nAdmission Includes:\n🍹Refreshing cocktails and mocktails  \n🍉Delicious and fresh finger food \n\n😳Want to attend?\n👇Just fill out the form\n<https://forms.gle/HHjgbRRbpnw3vTbNA>\n🤔Questions? [DM The Host, Daesha, via WhatsApp](https://wa.me/56982836228)\n\n🗺️In Ñuñoa near Principe de Gales metro, street parking available.",
 		"admission": "Paid",
-		"posterUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1795492800000/xovwEXP9xwlzZnAGjyTuqw/IipqOiNTbx6O4SjCt28A8TWtT_9_ISdtkj4x13qn4TLGfRkIpSnAdNHf8BBBjgq2cto24u3B_VNnDrfrLHOVB3PKtwEUPZmoQ00Q7MlONtkbydmcVsczmNOxBoKj_iDS-zlNaGpbp7B_LsPrbiEBVxsAismZ6afFoNut1dwqPrsbQUHRpIsTfVEPG7Qgy1L-/K8frWCOLl-tjSlQahHJAmIykjGw-f7vnUA1iVWrIA8E"
+		"posterUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1795492800000/xovwEXP9xwlzZnAGjyTuqw/IipqOiNTbx6O4SjCt28A8TWtT_9_ISdtkj4x13qn4TLGfRkIpSnAdNHf8BBBjgq2cto24u3B_VNnDrfrLHOVB3PKtwEUPZmoQ00Q7MlONtkbydmcVsczmNOxBoKj_iDS-zlNaGpbp7B_LsPrbiEBVxsAismZ6afFoNut1dwqPrsbQUHRpIsTfVEPG7Qgy1L-/K8frWCOLl-tjSlQahHJAmIykjGw-f7vnUA1iVWrIA8E",
+		"gps": {
+			"lat": -33.43916,
+			"lng": -70.57309
+		},
+		"mapImage": "/event-maps/get-together-2026-12-04.jpg"
 	}
 ]

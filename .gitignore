@@ -1,5 +1,6 @@
 # build output
 dist/
+public/event-maps/*.jpg
 # generated types
 .astro/
 

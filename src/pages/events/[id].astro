@@ -1,8 +1,6 @@
 ---
 import AppHeaderBrand from "@/components/app-header-brand.astro";
-import EventDescription from "@/components/event-description.astro";
-import { EventDetailFields } from "@/components/event-detail-fields";
-import { EventPosterZoom } from "@/components/event-poster-zoom";
+import { EventDetailLumaLayout } from "@/components/event-detail-luma-layout";
 import { buttonVariants } from "@/components/ui/button";
 import Layout from "@/layouts/Layout.astro";
 import { cn } from "cn";
@@ -26,59 +24,21 @@ const { event } = Astro.props;
 
 <Layout>
 	<main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pt-4 pb-10 md:px-6 md:pt-6">
-		<div class="mx-auto flex w-full max-w-3xl flex-col gap-8">
-			<header class="flex flex-col gap-4">
-				<AppHeaderBrand />
-				<a
-					href="/"
-					class={cn(
-						buttonVariants({ variant: "outline", size: "default" }),
-						"h-9 w-fit border-black bg-foreground px-3 text-sm text-background hover:bg-foreground/90 hover:text-background",
-					)}
-				>
-					← All events
-				</a>
-			</header>
+		<header class="flex w-full flex-wrap items-center justify-between gap-3">
+			<AppHeaderBrand />
+			<a
+				href="/"
+				class={cn(
+					buttonVariants({ variant: "outline", size: "default" }),
+					"h-9 w-fit shrink-0 border-black bg-foreground px-3 text-sm text-background hover:bg-foreground/90 hover:text-background",
+				)}
+			>
+				← All events
+			</a>
+		</header>
 
-			<article class="flex w-full flex-col gap-6">
-				<div class="flex flex-col gap-3">
-					<h1 class="text-2xl font-semibold tracking-tight text-balance">
-						{event.name}
-					</h1>
-					<EventDetailFields event={event} />
-				</div>
-
-				{event.posterUrl || event.description ? (
-					<>
-						<hr class="border-0 border-t border-border" />
-						<div
-							class:list={[
-								"grid w-full gap-6",
-								event.posterUrl && event.description
-									? "md:grid-cols-2 md:items-start md:gap-8"
-									: "grid-cols-1",
-							]}
-						>
-							{event.posterUrl ? (
-								<EventPosterZoom
-									client:load
-									src={event.posterUrl}
-									alt={event.name}
-									class="mx-auto md:mx-0"
-								/>
-							) : null}
-							{event.description ? (
-								<div class="flex min-w-0 flex-col gap-3">
-									<h2 class="text-lg font-semibold tracking-tight text-foreground">
-										Event Details
-									</h2>
-									<EventDescription markdown={event.description} />
-								</div>
-							) : null}
-						</div>
-					</>
-				) : null}
-			</article>
-		</div>
+		<article class="w-full min-w-0">
+			<EventDetailLumaLayout client:load event={event} />
+		</article>
 	</main>
 </Layout>

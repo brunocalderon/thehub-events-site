@@ -8,12 +8,15 @@ type EventPosterZoomProps = {
 	src: string;
 	alt?: string;
 	className?: string;
+	/** Square cover (Luma-style) vs default poster height cap. */
+	variant?: "poster" | "cover";
 };
 
 export function EventPosterZoom({
 	src,
 	alt = "",
 	className,
+	variant = "poster",
 }: EventPosterZoomProps) {
 	const [open, setOpen] = useState(false);
 	const titleId = useId();
@@ -44,7 +47,8 @@ export function EventPosterZoom({
 			<button
 				type="button"
 				className={cn(
-					"group block w-full max-w-md cursor-zoom-in rounded-lg border border-black p-0 text-left focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 md:max-w-none",
+					"group block w-full max-w-md cursor-zoom-in border border-black p-0 text-left focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 md:max-w-none",
+					variant === "cover" ? "rounded-2xl" : "rounded-lg",
 					className,
 				)}
 				aria-label="View full-size event poster"
@@ -55,7 +59,12 @@ export function EventPosterZoom({
 				<img
 					src={src}
 					alt={alt}
-					className="mx-auto w-full max-h-[28rem] rounded-[calc(var(--radius-lg)-1px)] object-cover transition-opacity group-hover:opacity-95 md:mx-0"
+					className={cn(
+						"mx-auto w-full transition-opacity group-hover:opacity-95 md:mx-0",
+						variant === "cover"
+							? "aspect-square rounded-[calc(1rem-1px)] object-cover"
+							: "max-h-[28rem] rounded-[calc(var(--radius-lg)-1px)] object-cover",
+					)}
 					loading="lazy"
 					decoding="async"
 				/>

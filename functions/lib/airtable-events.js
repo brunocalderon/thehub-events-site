@@ -10,6 +10,7 @@ const STATUS_FIELD = "Status";
 const PUBLISH_FIELD = "Publish";
 const ADMISSION_FIELD = "Admission";
 const POSTER_FIELD = "Poster Image";
+const GPS_FIELDS = ["GPS Coordinates", "GPS", "gpsCoordinates"];
 
 /** Grid view name — row order from the Airtable Events view. */
 export const DEFAULT_EVENTS_VIEW = "Events";
@@ -29,6 +30,8 @@ const QUERY_PARAMS =
  *   description?: string; // Airtable rich text (markdown)
  *   admission?: string;
  *   posterUrl?: string;
+ *   gps?: { lat: number; lng: number };
+ *   mapImage?: string;
  * }} PublicEvent
  */
 
@@ -107,6 +110,33 @@ function readRichTextDescription(value) {
 	}
 
 	return undefined;
+}
+
+/**
+ * @param {unknown} value
+ * @returns {{ lat: number; lng: number } | undefined}
+ */
+function readGpsCoordinates(value) {
+	if (typeof value !== "string") {
+		return undefined;
+	}
+	const trimmed = value.trim();
+	if (!trimmed) {
+		return undefined;
+	}
+	const parts = trimmed.split(",").map((part) => part.trim());
+	if (parts.length !== 2) {
+		return undefined;
+	}
+	const lat = Number.parseFloat(parts[0]);
+	const lng = Number.parseFloat(parts[1]);
+	if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+		return undefined;
+	}
+	if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+		return undefined;
+	}
+	return { lat, lng };
 }
 
 /**
@@ -257,6 +287,13 @@ export function mapAirtableRecord(record) {
 		const admission = optionalString(fields[ADMISSION_FIELD]);
 		const posterUrl = readPosterUrl(fields[POSTER_FIELD]);
 		const eventId = readFirstString(fields, ID_FIELDS);
+		let gps;
+		for (const fieldName of GPS_FIELDS) {
+			gps = readGpsCoordinates(fields[fieldName]);
+			if (gps) {
+				break;
+			}
+		}
 
 		return {
 			id: eventId ?? record.id,
@@ -269,6 +306,7 @@ export function mapAirtableRecord(record) {
 			...(description ? { description } : {}),
 			...(admission ? { admission } : {}),
 			...(posterUrl ? { posterUrl } : {}),
+			...(gps ? { gps } : {}),
 		};
 	} catch {
 		return null;

@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { fetchAirtableEvents } from "../functions/lib/airtable-events.js";
+import { mapboxStaticMapImageUrl } from "../functions/lib/mapbox-static-image.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const publicEventsPath = resolve(root, "src/generated/public-events.json");
@@ -51,6 +52,48 @@ function readWranglerVars() {
 		return out;
 	} catch {
 		return {};
+	}
+}
+
+const eventMapsDir = resolve(root, "public/event-maps");
+
+/**
+ * @param {import("../functions/lib/airtable-events.js").PublicEvent[]} events
+ * @param {string | undefined} mapboxToken
+ */
+async function syncEventMapImages(events, mapboxToken) {
+	mkdirSync(eventMapsDir, { recursive: true });
+
+	if (!mapboxToken) {
+		return;
+	}
+
+	for (const event of events) {
+		if (!event.gps) {
+			continue;
+		}
+		const imageUrl = mapboxStaticMapImageUrl(event.gps, mapboxToken);
+		if (!imageUrl) {
+			continue;
+		}
+		const outPath = resolve(eventMapsDir, `${event.id}.jpg`);
+		try {
+			const response = await fetch(imageUrl);
+			if (!response.ok) {
+				console.warn(
+					`sync-airtable-events: Mapbox static map failed for ${event.id} (${response.status}).`,
+				);
+				continue;
+			}
+			const bytes = Buffer.from(await response.arrayBuffer());
+			writeFileSync(outPath, bytes);
+			event.mapImage = `/event-maps/${event.id}.jpg`;
+		} catch (error) {
+			const message = error instanceof Error ? error.message : String(error);
+			console.warn(
+				`sync-airtable-events: Mapbox static map failed for ${event.id}: ${message}`,
+			);
+		}
 	}
 }
 
@@ -103,6 +146,7 @@ try {
 		table,
 		...(view ? { view } : {}),
 	});
+	await syncEventMapImages(events, envVar("MAPBOX_ACCESS_TOKEN"));
 	writePublicEvents(events);
 	console.log(
 		`sync-airtable-events: wrote ${events.length} event(s) for static build.`,
