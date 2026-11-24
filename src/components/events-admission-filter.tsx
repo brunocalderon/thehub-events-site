@@ -1,4 +1,9 @@
-import { BanknoteCheckIcon, BanknoteXIcon, LayoutListIcon } from "lucide-react";
+import {
+	BanknoteCheckIcon,
+	BanknoteXIcon,
+	LayoutListIcon,
+	PiggyBankIcon,
+} from "lucide-react";
 
 import type { AdmissionFilter } from "@/lib/event-admission";
 import { cn } from "cn";
@@ -11,6 +16,7 @@ const options: {
 	{ value: "all", label: "All", icon: LayoutListIcon },
 	{ value: "free", label: "Free", icon: BanknoteCheckIcon },
 	{ value: "paid", label: "Paid", icon: BanknoteXIcon },
+	{ value: "donation", label: "Donation", icon: PiggyBankIcon },
 ];
 
 type EventsAdmissionFilterProps = {
@@ -43,7 +49,7 @@ export function EventsAdmissionFilter({
 								: "bg-background text-foreground hover:bg-muted",
 						)}
 					>
-						<Icon className="size-3.5 shrink-0" aria-hidden />
+						<Icon className="size-5 shrink-0" aria-hidden />
 						{label}
 					</button>
 				);

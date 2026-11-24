@@ -1,7 +1,6 @@
 import {
 	ClockIcon,
 	DoorOpenIcon,
-	EyeIcon,
 	MapPinIcon,
 	UserGroupIcon,
 } from "lucide-react";
@@ -13,6 +12,10 @@ import { EventPlace } from "@/components/event-place";
 import { EventJoinLink } from "@/components/event-join-link";
 import { EventMoreInfoLink } from "@/components/event-more-info-link";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
+import { cn } from "cn";
+
+const mergedFooterJoinLinkClassName =
+	"text-sm font-medium text-background underline underline-offset-4 hover:text-background/80";
 
 const headerClassName =
 	"flex min-h-[2.75rem] items-center bg-foreground px-2 text-xs font-medium text-background";
@@ -21,7 +24,11 @@ const labelClassName =
 const valueClassName =
 	"flex min-h-[2.75rem] items-center px-4 text-foreground";
 const gridClassName =
-	"grid grid-cols-[6.75rem_1fr] gap-0 text-sm [&>dt]:border-b [&>dt]:border-[#F2F0EF]/25 [&>dt:last-of-type]:border-b-0 [&>dd]:border-b [&>dd]:border-black [&>dd:last-of-type]:border-b-0";
+	"grid grid-cols-[6.75rem_1fr] gap-0 text-sm [&>dt]:border-b [&>dt]:border-[#F2F0EF]/25 [&>dd]:border-b [&>dd]:border-black [&>dd:not(.col-span-2):last-of-type]:border-b-0";
+const mergedFooterRowClassName =
+	"col-span-2 flex min-h-[2.75rem] items-center bg-foreground px-3 py-2 text-background";
+const mergedFooterButtonRowClassName =
+	"col-span-2 flex w-full items-center bg-foreground p-3 text-background";
 
 type EventMobileFieldsGridProps = {
 	event: HubEvent;
@@ -48,6 +55,25 @@ function FieldRow({
 			</dt>
 			<dd className={`${valueClassName} min-w-0`}>{children}</dd>
 		</>
+	);
+}
+
+function MergedFooterRow({
+	icon,
+	children,
+	variant = "link",
+}: {
+	icon?: ReactNode;
+	children: ReactNode;
+	variant?: "link" | "button";
+}) {
+	const rowClassName =
+		variant === "button" ? mergedFooterButtonRowClassName : mergedFooterRowClassName;
+	return (
+		<dd className={cn(rowClassName, "min-w-0")}>
+			{icon}
+			{children}
+		</dd>
 	);
 }
 
@@ -81,20 +107,22 @@ export function EventMobileFieldsGrid({
 				<EventAdmissionBadge admission={event.admission} />
 			</FieldRow>
 			{showJoin && event.link ? (
-				<FieldRow
-					label="Join"
-					icon={<UserGroupIcon aria-hidden />}
-				>
-					<EventJoinLink href={event.link} className="w-fit" />
-				</FieldRow>
+				<MergedFooterRow icon={<UserGroupIcon aria-hidden />}>
+					<EventJoinLink
+						href={event.link}
+						className={mergedFooterJoinLinkClassName}
+					/>
+				</MergedFooterRow>
 			) : null}
 			{footer === "more-info" ? (
-				<FieldRow
-					label="View more"
-					icon={<EyeIcon aria-hidden />}
-				>
-					<EventMoreInfoLink event={event} className="w-fit" />
-				</FieldRow>
+				<MergedFooterRow variant="button">
+					<EventMoreInfoLink
+						event={event}
+						className="h-9 w-full"
+						appearance="button"
+						iconPosition="start"
+					/>
+				</MergedFooterRow>
 			) : null}
 		</dl>
 	);

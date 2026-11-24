@@ -5,6 +5,8 @@ const paidAdmissionBadgeClassName =
 	"border-transparent bg-[#4682B4] text-[#F2F0EF]";
 const freeAdmissionBadgeClassName =
 	"border-transparent bg-[#2E6F40] text-[#F2F0EF]";
+const donationAdmissionBadgeClassName =
+	"border-transparent bg-[#9A6B2F] text-[#F2F0EF]";
 
 type EventAdmissionBadgeProps = {
 	admission?: string;
@@ -25,6 +27,12 @@ export function EventAdmissionBadge({ admission }: EventAdmissionBadgeProps) {
 		case "free":
 			return (
 				<Badge className={freeAdmissionBadgeClassName}>
+					{admission!.trim()}
+				</Badge>
+			);
+		case "donation":
+			return (
+				<Badge className={donationAdmissionBadgeClassName}>
 					{admission!.trim()}
 				</Badge>
 			);

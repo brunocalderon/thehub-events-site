@@ -1,6 +1,6 @@
-export type AdmissionKind = "paid" | "free" | "other" | "none";
+export type AdmissionKind = "paid" | "free" | "donation" | "other" | "none";
 
-export type AdmissionFilter = "all" | "free" | "paid";
+export type AdmissionFilter = "all" | "free" | "paid" | "donation";
 
 export function admissionKind(value: string | undefined): AdmissionKind {
 	if (!value?.trim()) {
@@ -12,6 +12,9 @@ export function admissionKind(value: string | undefined): AdmissionKind {
 	}
 	if (normalized === "free") {
 		return "free";
+	}
+	if (normalized === "donation" || normalized === "voluntary donation") {
+		return "donation";
 	}
 	return "other";
 }

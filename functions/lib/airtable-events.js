@@ -138,6 +138,41 @@ function normalizeUrl(raw) {
 }
 
 /**
+ * @param {string} hour12
+ * @param {"am" | "pm" | string} ampm
+ */
+function hour12To24(hour12, ampm) {
+	let hour = Number.parseInt(hour12, 10);
+	if (Number.isNaN(hour) || hour < 1 || hour > 12) {
+		throw new Error(`Invalid hour: ${hour12}`);
+	}
+	const normalized = ampm.trim().toLowerCase().replace(/\./g, "");
+	const isPm = normalized.startsWith("p");
+	if (isPm && hour !== 12) {
+		hour += 12;
+	} else if (!isPm && hour === 12) {
+		hour = 0;
+	}
+	return hour;
+}
+
+/**
+ * @param {string} datePart YYYY-MM-DD
+ * @param {string} hour
+ * @param {string} minute
+ * @param {string} second
+ * @returns {string}
+ */
+function santiagoLocalToIso(datePart, hour, minute, second) {
+	const candidate = `${datePart}T${String(hour).padStart(2, "0")}:${minute}:${second}-03:00`;
+	const parsed = Date.parse(candidate);
+	if (Number.isNaN(parsed)) {
+		throw new Error(`Could not parse datetime parts: ${datePart} ${hour}:${minute}`);
+	}
+	return new Date(parsed).toISOString();
+}
+
+/**
  * @param {string} raw
  */
 function parseAirtableDateTime(raw) {
@@ -149,16 +184,21 @@ function parseAirtableDateTime(raw) {
 		}
 	}
 
+	const twelveHourMatch = trimmed.match(
+		/^(\d{4}-\d{2}-\d{2})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([ap])(?:\.?\s*m\.?)?$/i,
+	);
+	if (twelveHourMatch) {
+		const [, datePart, hour12, minute, second = "00", ampmLetter] = twelveHourMatch;
+		const hour24 = hour12To24(hour12, `${ampmLetter}m`);
+		return santiagoLocalToIso(datePart, String(hour24), minute, second);
+	}
+
 	const localMatch = trimmed.match(
 		/^(\d{4}-\d{2}-\d{2})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?$/,
 	);
 	if (localMatch) {
 		const [, datePart, hour, minute, second = "00"] = localMatch;
-		const candidate = `${datePart}T${hour.padStart(2, "0")}:${minute}:${second}-03:00`;
-		const parsed = Date.parse(candidate);
-		if (!Number.isNaN(parsed)) {
-			return new Date(parsed).toISOString();
-		}
+		return santiagoLocalToIso(datePart, hour, minute, second);
 	}
 
 	const parsed = Date.parse(trimmed);
