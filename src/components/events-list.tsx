@@ -1,7 +1,7 @@
 "use client";
 
 import { ClockIcon, DoorOpenIcon, EyeIcon, MapPinIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type { HubEvent } from "@/data/events";
 import { EventAdmissionBadge } from "@/components/event-admission-badge";
@@ -13,6 +13,7 @@ import {
 } from "@/lib/event-admission";
 import { EventMoreInfoLink } from "@/components/event-more-info-link";
 import { formatEventDateTime } from "@/lib/format-event-datetime";
+import { filterUpcomingEvents } from "@/lib/event-upcoming";
 import {
 	Empty,
 	EmptyDescription,
@@ -63,13 +64,25 @@ const emptyFilterCopy: Record<Exclude<AdmissionFilter, "all">, string> = {
 
 export function EventsList({ events = [] }: EventsListProps) {
 	const [admissionFilter, setAdmissionFilter] = useState<AdmissionFilter>("all");
+	const [now, setNow] = useState(() => new Date());
+
+	useEffect(() => {
+		setNow(new Date());
+		const id = window.setInterval(() => setNow(new Date()), 60_000);
+		return () => window.clearInterval(id);
+	}, []);
+
+	const upcomingEvents = useMemo(
+		() => filterUpcomingEvents(events, now),
+		[events, now],
+	);
 
 	const filteredEvents = useMemo(
 		() =>
-			events.filter((event) =>
+			upcomingEvents.filter((event) =>
 				matchesAdmissionFilter(event.admission, admissionFilter),
 			),
-		[events, admissionFilter],
+		[upcomingEvents, admissionFilter],
 	);
 
 	return (
@@ -86,7 +99,19 @@ export function EventsList({ events = [] }: EventsListProps) {
 				</Empty>
 			) : null}
 
-			{events.length > 0 ? (
+			{events.length > 0 && upcomingEvents.length === 0 ? (
+				<Empty>
+					<EmptyHeader>
+						<EmptyTitle>No upcoming events</EmptyTitle>
+						<EmptyDescription>
+							Nothing scheduled right now. Past events stay on their own pages if
+							you have the link.
+						</EmptyDescription>
+					</EmptyHeader>
+				</Empty>
+			) : null}
+
+			{upcomingEvents.length > 0 ? (
 				<>
 					<EventsAdmissionFilter
 						value={admissionFilter}

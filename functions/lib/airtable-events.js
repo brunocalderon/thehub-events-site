@@ -114,7 +114,7 @@ function readRichTextDescription(value) {
  */
 function isVisibleInList(fields) {
 	const status = optionalString(fields[STATUS_FIELD]);
-	if (status !== undefined && status !== "Approved") {
+	if (status !== "Approved") {
 		return false;
 	}
 
